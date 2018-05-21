@@ -16,9 +16,9 @@ namespace test
         {
             string baseAddress = "http://localhost:9000/";
 
-            var commaFilePath = @"C:\docs\commadelimited.txt";
-            var pipeFilePath = @"C:\docs\pipedelimited.txt";
-            var spaceFilePath = @"C:\docs\spacedelimited.txt";
+            var commaFilePath = args[0];
+            var pipeFilePath = args[1];
+            var spaceFilePath = args[2];
 
             FileManager.ReadFileContents(commaFilePath);
             FileManager.ReadFileContents(pipeFilePath);
@@ -37,18 +37,12 @@ namespace test
             Console.Write("Option 3" + fileContentsSortedByLastName);
 
 
-            // Start OWIN host 
-           // WebApp.Start<Startup>(url: baseAddress);
-
             using(WebApp.Start(baseAddress, appBuilder => new Startup().Configuration(appBuilder)))
             {
                 Console.WriteLine("Running...");
                 Console.ReadLine();
             }
 
-
-            //Console.Write("Press any key to continue...");
-            //Console.ReadKey(true);
         }
 
     }

@@ -16,7 +16,7 @@ namespace test
     public class RecordsController : ApiController 
     {
         
-        //need to inject/pass IService
+        //need to inject/pass IRepository
         public RecordsController()
         {
         }
