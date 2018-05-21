@@ -20,9 +20,9 @@ namespace test
             var pipeFilePath = @"C:\docs\pipedelimited.txt";
             var spaceFilePath = @"C:\docs\spacedelimited.txt";
 
-            FileManager.ReadFileContents(",", commaFilePath);
-            FileManager.ReadFileContents("|", pipeFilePath);
-            FileManager.ReadFileContents(" ", spaceFilePath);
+            FileManager.ReadFileContents(commaFilePath);
+            FileManager.ReadFileContents(pipeFilePath);
+            FileManager.ReadFileContents(spaceFilePath);
 
             //Output 1 – sorted by gender(females before males) then by last name ascending.
             var fileContentsSortedByGenderLastName =  JsonConvert.SerializeObject(FileManager.FileContentList.OrderBy(x=> x.Gender).OrderBy(x=>x.LastName), Formatting.Indented);
@@ -38,10 +38,17 @@ namespace test
 
 
             // Start OWIN host 
-            WebApp.Start<Startup>(url: baseAddress);
+           // WebApp.Start<Startup>(url: baseAddress);
 
-            Console.Write("Press any key to continue...");
-            Console.ReadKey(true);
+            using(WebApp.Start(baseAddress, appBuilder => new Startup().Configuration(appBuilder)))
+            {
+                Console.WriteLine("Running...");
+                Console.ReadLine();
+            }
+
+
+            //Console.Write("Press any key to continue...");
+            //Console.ReadKey(true);
         }
 
     }
