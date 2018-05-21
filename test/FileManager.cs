@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,35 +19,33 @@ namespace test
             }
         }
 
-
         public static void AddLine(string line)
         {
             var delimiter = GetDelimiter(line);
             string[] values = line.Split(delimiter.ToCharArray());
+
+            DateTime dateValue;
+            if (!DateTime.TryParse(values[4], out dateValue))
+                throw new Exception("Invalid date");
+            
             FileContentsModel fileContents = new FileContentsModel
             {
                 LastName = values[0],
                 FirstName = values[1],
                 Gender = values[2],
                 FavoriteColor = values[3],
-                DateOfBirth = Convert.ToDateTime(values[4])
+                DateOfBirth = dateValue
             };
-            fileContentList.Add(fileContents);
+            _fileContentList.Add(fileContents);
         }
 
-        public static  void  ReadFileContents(string delimiter, string filePath )
+        public static  void  ReadFileContents(string filePath )
         {
-            List<string> allLinesText = File.ReadAllLines(filePath).ToList();
-
-            var list = allLinesText.Select(a => a.Split(delimiter.ToCharArray())).Select(a=> new FileContentsModel {
-                LastName = a[0],
-                FirstName = a[1],
-                Gender = a[2],
-                FavoriteColor = a[3],
-                DateOfBirth = Convert.ToDateTime(a[4])
-            }).ToList();
-
-            fileContentList.AddRange(list);
+            var lines = File.ReadLines(filePath);
+            foreach (var line in lines)
+            {
+                AddLine(line);
+            }
         }
 
         private static string GetDelimiter(string line)
@@ -56,8 +54,10 @@ namespace test
                 return "|";
             else if (line.IndexOf(",") > -1)
                 return ",";
-            else
+            else if (line.IndexOf(" ") > -1)
                 return " ";
+            else
+                throw new Exception("Delimiter not found.");
         }
     }
 }
