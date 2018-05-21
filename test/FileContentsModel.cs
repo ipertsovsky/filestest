@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,10 +9,10 @@ namespace test
 {
     public class FileContentsModel
     {
-        public string LastName;
-        public string FirstName;
-        public string Gender;
-        public string FavoriteColor;
-        public DateTime DateOfBirth;
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public string Gender { get; set; }
+        public string FavoriteColor { get; set; }
+        public DateTime DateOfBirth { get; set; }
     }
 }
